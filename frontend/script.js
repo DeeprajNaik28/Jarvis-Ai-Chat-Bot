@@ -17,7 +17,7 @@ const startupSound =
   document.getElementById("startup-sound");
 
 const API_URL =
-"https://YOUR-RENDER-URL.onrender.com/chat";
+"https://jarvis-ai-chat-bot.onrender.com";
 
 let isMuted = false;
 
