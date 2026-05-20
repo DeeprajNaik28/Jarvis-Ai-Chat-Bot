@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>JARVIS AI</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap"
+    rel="stylesheet"
+  >
+
+</head>
+
+<body>
+
+  <div id="boot-screen">
+
+    <h1>J.A.R.V.I.S</h1>
+
+    <p>INITIALIZING SYSTEMS...</p>
+
+  </div>
+
+  <div class="hud-overlay"></div>
+
+  <div id="particles"></div>
+
+  <div class="circle circle1"></div>
+
+  <div class="circle circle2"></div>
+
+  <div class="container">
+
+    <div class="jarvis-title">
+      J.A.R.V.I.S
+    </div>
+
+    <div class="status">
+      SYSTEM ONLINE
+    </div>
+
+    <div class="controls">
+
+      <button id="mute-btn">
+        MUTE
+      </button>
+
+    </div>
+
+    <div class="hud-panels">
+
+      <div class="panel left-panel">
+
+        <div class="panel-title">
+          SYSTEM STATUS
+        </div>
+
+        <div class="panel-content">
+
+          <p>AI CORE : ACTIVE</p>
+
+          <p>NETWORK : STABLE</p>
+
+          <p>VOICE : ONLINE</p>
+
+          <p>SECURITY : ENABLED</p>
+
+        </div>
+
+      </div>
+
+      <div id="chat-box"></div>
+
+      <div class="panel right-panel">
+
+        <div class="panel-title">
+          LIVE DATA
+        </div>
+
+        <div class="panel-content">
+
+          <div id="clock"></div>
+
+          <div class="radar"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="input-area">
+
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Speak to JARVIS..."
+      />
+
+      <button id="mic-btn">
+        🎤
+      </button>
+
+      <button id="send-btn">
+        SEND
+      </button>
+
+    </div>
+
+  </div>
+
+  <audio
+    id="startup-sound"
+    src="sounds/startup.mp3"
+    preload="auto">
+  </audio>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
