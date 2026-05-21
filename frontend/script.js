@@ -1,25 +1,23 @@
 const chatBox =
-  document.getElementById("chat-box");
+document.getElementById("chat-box");
 
 const userInput =
-  document.getElementById("user-input");
+document.getElementById("user-input");
 
 const sendBtn =
-  document.getElementById("send-btn");
+document.getElementById("send-btn");
 
 const muteBtn =
-  document.getElementById("mute-btn");
+document.getElementById("mute-btn");
 
 const micBtn =
-  document.getElementById("mic-btn");
+document.getElementById("mic-btn");
 
 const startupSound =
-  document.getElementById("startup-sound");
-
-/* CHANGE THIS AFTER DEPLOY */
+document.getElementById("startup-sound");
 
 const API_URL =
-  "https://jarvis-ai-chat-bot.onrender.com/chat"";
+"https://jarvis-ai-chat-bot.onrender.com/chat";
 
 let isMuted = false;
 
@@ -32,7 +30,7 @@ function speak(text){
   window.speechSynthesis.cancel();
 
   const speech =
-    new SpeechSynthesisUtterance(text);
+  new SpeechSynthesisUtterance(text);
 
   speech.rate = 1.05;
 
@@ -41,14 +39,14 @@ function speak(text){
   speech.volume = 1;
 
   const voices =
-    window.speechSynthesis.getVoices();
+  window.speechSynthesis.getVoices();
 
   const jarvisVoice = voices.find(
     voice =>
-      voice.name.includes(
-        "Google UK English Male"
-      ) ||
-      voice.name.includes("David")
+    voice.name.includes(
+      "Google UK English Male"
+    ) ||
+    voice.name.includes("David")
   );
 
   if(jarvisVoice){
@@ -63,17 +61,17 @@ function speak(text){
 function addMessage(text, sender){
 
   const messageDiv =
-    document.createElement("div");
+  document.createElement("div");
 
   messageDiv.className =
-    `message ${sender}`;
+  `message ${sender}`;
 
   messageDiv.textContent = text;
 
   chatBox.appendChild(messageDiv);
 
   chatBox.scrollTop =
-    chatBox.scrollHeight;
+  chatBox.scrollHeight;
 }
 
 /* TYPE MESSAGE */
@@ -81,24 +79,25 @@ function addMessage(text, sender){
 function typeMessage(text, sender){
 
   const messageDiv =
-    document.createElement("div");
+  document.createElement("div");
 
   messageDiv.className =
-    `message ${sender}`;
+  `message ${sender}`;
 
   chatBox.appendChild(messageDiv);
 
   let index = 0;
 
-  const typing = setInterval(()=>{
+  const typing =
+  setInterval(()=>{
 
     messageDiv.textContent =
-      text.slice(0, index);
+    text.slice(0,index);
 
     index++;
 
     chatBox.scrollTop =
-      chatBox.scrollHeight;
+    chatBox.scrollHeight;
 
     if(index > text.length){
 
@@ -109,50 +108,51 @@ function typeMessage(text, sender){
       }
     }
 
-  }, 12);
+  },12);
 }
 
-/* SEND */
+/* SEND MESSAGE */
 
 async function sendMessage(){
 
   const message =
-    userInput.value.trim();
+  userInput.value.trim();
 
   if(!message) return;
 
-  addMessage(message, "user");
+  addMessage(message,"user");
 
   userInput.value = "";
 
   const typingDiv =
-    document.createElement("div");
+  document.createElement("div");
 
   typingDiv.className =
-    "message bot";
+  "message bot";
 
-  typingDiv.innerHTML = `
-    <div class="thinking">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+  typingDiv.innerHTML =
+  `
+  <div class="thinking">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   `;
 
   chatBox.appendChild(typingDiv);
 
   chatBox.scrollTop =
-    chatBox.scrollHeight;
+  chatBox.scrollHeight;
 
   try{
 
     const response =
-      await fetch(API_URL,{
+    await fetch(API_URL,{
 
       method:"POST",
 
       headers:{
-        "Content-Type":"application/json",
+        "Content-Type":"application/json"
       },
 
       body:JSON.stringify({
@@ -162,13 +162,11 @@ async function sendMessage(){
     });
 
     if(!response.ok){
-      throw new Error(
-        "Server error"
-      );
+      throw new Error("Server error");
     }
 
     const data =
-      await response.json();
+    await response.json();
 
     typingDiv.remove();
 
@@ -190,54 +188,54 @@ async function sendMessage(){
   }
 }
 
-/* BUTTONS */
+/* BUTTON EVENTS */
 
 sendBtn.addEventListener(
-  "click",
-  sendMessage
+"click",
+sendMessage
 );
 
 userInput.addEventListener(
-  "keypress",
-  (e)=>{
+"keypress",
+(e)=>{
 
-    if(e.key === "Enter"){
-      sendMessage();
-    }
-
+  if(e.key === "Enter"){
+    sendMessage();
   }
+
+}
 );
 
 /* MUTE */
 
 muteBtn.addEventListener(
-  "click",
-  ()=>{
+"click",
+()=>{
 
-    isMuted = !isMuted;
+  isMuted = !isMuted;
 
-    muteBtn.innerText =
-      isMuted
-      ? "UNMUTE"
-      : "MUTE";
+  muteBtn.innerText =
+  isMuted
+  ? "UNMUTE"
+  : "MUTE";
 
-    if(isMuted){
-      window.speechSynthesis.cancel();
-    }
-
+  if(isMuted){
+    window.speechSynthesis.cancel();
   }
+
+}
 );
 
 /* MIC */
 
 const SpeechRecognition =
-  window.SpeechRecognition ||
-  window.webkitSpeechRecognition;
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
 
 if(SpeechRecognition){
 
   const recognition =
-    new SpeechRecognition();
+  new SpeechRecognition();
 
   recognition.lang = "en-US";
 
@@ -246,23 +244,23 @@ if(SpeechRecognition){
   recognition.interimResults = false;
 
   micBtn.addEventListener(
-    "click",
-    ()=>{
+  "click",
+  ()=>{
 
-      micBtn.innerText = "🎙️";
+    micBtn.innerText = "🎙️";
 
-      recognition.start();
-    }
-  );
+    recognition.start();
+
+  });
 
   recognition.onresult =
-    (event)=>{
+  (event)=>{
 
     const transcript =
-      event.results[0][0].transcript;
+    event.results[0][0].transcript;
 
     userInput.value =
-      transcript;
+    transcript;
 
     micBtn.innerText = "🎤";
 
@@ -274,12 +272,6 @@ if(SpeechRecognition){
     micBtn.innerText = "🎤";
   };
 
-}else{
-
-  addMessage(
-    "Speech recognition not supported.",
-    "bot"
-  );
 }
 
 /* CLOCK */
@@ -287,15 +279,15 @@ if(SpeechRecognition){
 function updateClock(){
 
   const clock =
-    document.getElementById("clock");
+  document.getElementById("clock");
 
   const now = new Date();
 
   clock.textContent =
-    now.toLocaleTimeString();
+  now.toLocaleTimeString();
 }
 
-setInterval(updateClock, 1000);
+setInterval(updateClock,1000);
 
 updateClock();
 
@@ -304,13 +296,15 @@ updateClock();
 window.onload = ()=>{
 
   document.body.addEventListener(
-    "click",
-    ()=>{
+  "click",
+  ()=>{
 
+    if(startupSound){
       startupSound.play();
+    }
 
-    },
-    { once:true }
+  },
+  { once:true }
   );
 
   setTimeout(()=>{
@@ -321,4 +315,5 @@ window.onload = ()=>{
     );
 
   },2500);
+
 };
