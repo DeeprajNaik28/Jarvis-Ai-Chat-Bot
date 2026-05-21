@@ -109,26 +109,36 @@ body{
 .hud-panels{
   display:grid;
 
-  grid-template-columns:220px 1fr 220px;
+  grid-template-columns:
+    240px
+    minmax(300px,1fr)
+    240px;
 
-  gap:15px;
+  gap:20px;
 
-  height:70%;
+  height:72vh;
+
+  align-items:stretch;
 }
 
 /* PANELS */
 
 .panel{
-  border:1px solid #00f7ff55;
+  border:1px solid #00f7ff33;
 
-  border-radius:15px;
+  border-radius:18px;
 
-  padding:15px;
+  padding:18px;
 
-  background:rgba(0,255,255,0.03);
+  background:
+    rgba(0,255,255,0.03);
+
+  backdrop-filter:blur(6px);
 
   box-shadow:
-    0 0 10px #00f7ff33;
+    0 0 20px #00f7ff11;
+
+  overflow:hidden;
 }
 
 .panel-title{
@@ -152,13 +162,23 @@ body{
 #chat-box{
   border:1px solid #00f7ff55;
 
-  border-radius:10px;
+  border-radius:16px;
 
-  padding:15px;
+  padding:18px;
 
   overflow-y:auto;
 
-  background:rgba(0,255,255,0.03);
+  background:
+    rgba(0,255,255,0.03);
+
+  backdrop-filter:blur(8px);
+
+  box-shadow:
+    0 0 20px #00f7ff11;
+
+  display:flex;
+
+  flex-direction:column;
 }
 
 /* CLOCK */
@@ -556,17 +576,24 @@ body{
   }
 
   .container{
-    padding:12px;
+    padding:10px;
+
     height:auto;
   }
 
   .jarvis-title{
     font-size:2rem;
+
+    margin-bottom:6px;
   }
 
-  /* HUD LAYOUT */
+  .status{
+    font-size:12px;
+  }
 
   .hud-panels{
+
+    display:grid;
 
     grid-template-columns:1fr 1fr;
 
@@ -590,11 +617,17 @@ body{
   #chat-box{
     grid-area:chat;
 
-    height:320px;
+    height:50vh;
+
+    min-height:300px;
+
+    padding:12px;
   }
 
   .panel{
-    padding:10px;
+    padding:12px;
+
+    border-radius:14px;
   }
 
   .panel-title{
@@ -603,63 +636,63 @@ body{
 
   .panel-content{
     font-size:10px;
+
+    line-height:1.8;
   }
 
   #clock{
-    font-size:18px;
+    font-size:16px;
+
+    margin-bottom:10px;
   }
 
   .radar{
-    width:80px;
-    height:80px;
+    width:70px;
+    height:70px;
   }
 
-  /* INPUT AREA */
-
   .input-area{
-    margin-top:15px;
-
     display:flex;
 
-    align-items:center;
-
     gap:8px;
+
+    margin-top:12px;
   }
 
   #user-input{
     flex:1;
-
-    width:auto;
 
     padding:12px;
 
     font-size:14px;
   }
 
-  /* SMALLER BUTTONS */
-
   #mic-btn{
-    width:50px;
+    width:48px;
 
-    min-width:50px;
+    min-width:48px;
 
-    padding:12px;
-
-    font-size:16px;
+    padding:10px;
   }
 
   #send-btn{
-    width:75px;
+    width:70px;
 
-    min-width:75px;
+    min-width:70px;
 
-    padding:12px;
+    padding:10px;
 
-    font-size:12px;
+    font-size:11px;
   }
 
   #mute-btn{
     width:100%;
+  }
+
+  .message{
+    font-size:13px;
+
+    padding:10px;
   }
 
   .circle1,
@@ -668,10 +701,6 @@ body{
   }
 
   #boot-screen h1{
-    font-size:2.2rem;
-  }
-
-  .message{
-    font-size:13px;
+    font-size:2rem;
   }
 }

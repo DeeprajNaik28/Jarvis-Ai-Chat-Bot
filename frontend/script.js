@@ -16,12 +16,14 @@ const micBtn =
 const startupSound =
   document.getElementById("startup-sound");
 
+/* CHANGE THIS AFTER DEPLOY */
+
 const API_URL =
-"https://jarvis-ai-chat-bot.onrender.com";
+  "https://jarvis-ai-chat-bot.onrender.com";
 
 let isMuted = false;
 
-/* VOICE */
+/* SPEAK */
 
 function speak(text){
 
@@ -32,7 +34,7 @@ function speak(text){
   const speech =
     new SpeechSynthesisUtterance(text);
 
-  speech.rate = 1.1;
+  speech.rate = 1.05;
 
   speech.pitch = 0.9;
 
@@ -63,11 +65,10 @@ function addMessage(text, sender){
   const messageDiv =
     document.createElement("div");
 
-  messageDiv.classList.add("message");
+  messageDiv.className =
+    `message ${sender}`;
 
-  messageDiv.classList.add(sender);
-
-  messageDiv.innerText = text;
+  messageDiv.textContent = text;
 
   chatBox.appendChild(messageDiv);
 
@@ -82,9 +83,8 @@ function typeMessage(text, sender){
   const messageDiv =
     document.createElement("div");
 
-  messageDiv.classList.add("message");
-
-  messageDiv.classList.add(sender);
+  messageDiv.className =
+    `message ${sender}`;
 
   chatBox.appendChild(messageDiv);
 
@@ -92,15 +92,15 @@ function typeMessage(text, sender){
 
   const typing = setInterval(()=>{
 
-    messageDiv.innerText +=
-      text.charAt(index);
+    messageDiv.textContent =
+      text.slice(0, index);
 
     index++;
 
     chatBox.scrollTop =
       chatBox.scrollHeight;
 
-    if(index >= text.length){
+    if(index > text.length){
 
       clearInterval(typing);
 
@@ -109,17 +109,17 @@ function typeMessage(text, sender){
       }
     }
 
-  }, 8);
+  }, 12);
 }
 
-/* SEND MESSAGE */
+/* SEND */
 
 async function sendMessage(){
 
   const message =
     userInput.value.trim();
 
-  if(message === "") return;
+  if(!message) return;
 
   addMessage(message, "user");
 
@@ -128,9 +128,8 @@ async function sendMessage(){
   const typingDiv =
     document.createElement("div");
 
-  typingDiv.classList.add("message");
-
-  typingDiv.classList.add("bot");
+  typingDiv.className =
+    "message bot";
 
   typingDiv.innerHTML = `
     <div class="thinking">
@@ -157,28 +156,37 @@ async function sendMessage(){
       },
 
       body:JSON.stringify({
-        message,
-      }),
+        message
+      })
 
     });
+
+    if(!response.ok){
+      throw new Error(
+        "Server error"
+      );
+    }
 
     const data =
       await response.json();
 
     typingDiv.remove();
 
-    typeMessage(data.reply, "bot");
-
-  }catch(error){
-
-    typingDiv.remove();
-
     typeMessage(
-      "Connection to JARVIS failed, sir.",
+      data.reply,
       "bot"
     );
 
+  }catch(error){
+
     console.error(error);
+
+    typingDiv.remove();
+
+    addMessage(
+      "Connection to JARVIS failed, sir.",
+      "bot"
+    );
   }
 }
 
@@ -208,17 +216,13 @@ muteBtn.addEventListener(
 
     isMuted = !isMuted;
 
+    muteBtn.innerText =
+      isMuted
+      ? "UNMUTE"
+      : "MUTE";
+
     if(isMuted){
-
-      muteBtn.innerText =
-        "UNMUTE";
-
       window.speechSynthesis.cancel();
-
-    }else{
-
-      muteBtn.innerText =
-        "MUTE";
     }
 
   }
@@ -265,19 +269,6 @@ if(SpeechRecognition){
     sendMessage();
   };
 
-  recognition.onerror =
-    (event)=>{
-
-    console.error(event.error);
-
-    micBtn.innerText = "🎤";
-
-    addMessage(
-      "Microphone error detected, sir.",
-      "bot"
-    );
-  };
-
   recognition.onend = ()=>{
 
     micBtn.innerText = "🎤";
@@ -286,7 +277,7 @@ if(SpeechRecognition){
 }else{
 
   addMessage(
-    "Speech recognition not supported in this browser, sir.",
+    "Speech recognition not supported.",
     "bot"
   );
 }
@@ -300,7 +291,7 @@ function updateClock(){
 
   const now = new Date();
 
-  clock.innerText =
+  clock.textContent =
     now.toLocaleTimeString();
 }
 
@@ -324,11 +315,10 @@ window.onload = ()=>{
 
   setTimeout(()=>{
 
-    const welcome =
-      "Good evening, sir. JARVIS systems are now online.";
-
-    typeMessage(welcome, "bot");
+    typeMessage(
+      "Good evening, sir. JARVIS systems are now online.",
+      "bot"
+    );
 
   },2500);
-
 };
