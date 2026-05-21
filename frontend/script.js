@@ -19,7 +19,7 @@ const startupSound =
 /* CHANGE THIS AFTER DEPLOY */
 
 const API_URL =
-  "https://jarvis-ai-chat-bot.onrender.com";
+  "https://jarvis-ai-chat-bot.onrender.com/chat"";
 
 let isMuted = false;
 
